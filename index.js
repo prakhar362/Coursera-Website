@@ -1,39 +1,21 @@
-const express=require('express');
-const app=express();
-const port=3000;
+const express = require("express");
+const { userRouter } = require("./routes/user");
+const { courseRouter } = require("./routes/course");
+const { adminRouter } = require("./routes/admin");
+const app = express();
 
-app.post("/user/signup", function(req, res) {
-    res.json({
-        message: "signup endpoint"
-    })
-})
+// Middleware to parse JSON requests
+app.use(express.json());
 
-app.post("/user/signin", function(req, res) {
-    res.json({
-        message: "signup endpoint"
-    })
-})
+// Attach routers to their respective base routes
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/course", courseRouter);
 
-app.get("/user/purchases", function(req, res) {
-    res.json({
-        message: "signup endpoint"
-    })
-})
+const port = 3000; // Define the port number
 
-app.post("/course/purchase", function(req, res) {
-    // you would expect the user to pay you money
-    res.json({
-        message: "signup endpoint"
-    })
-})
-
-app.get("/courses", function(req, res) {
-    res.json({
-        message: "signup endpoint"
-    })
-})
-
-app.listen(port,()=>{
-    console.log('Go to http://localhost:' + port);
-
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
 });
+
