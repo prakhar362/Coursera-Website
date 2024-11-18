@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const userRouter = Router();
-
+//Basic workflow/sop how routes in js work.
 // Define user-related endpoints
 userRouter.post("/signup", (req, res) => {
     res.json({
