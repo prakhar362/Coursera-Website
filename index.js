@@ -5,7 +5,7 @@ const { userRouter } = require("./routes/user");
 const { courseRouter } = require("./routes/course");
 const { adminRouter } = require("./routes/admin");
 const app = express();
-
+app.use(express.json());
 // Middleware to parse JSON requests
 app.use(express.json());
 
