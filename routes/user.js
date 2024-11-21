@@ -2,7 +2,8 @@ const { Router } = require("express");
 const bcrypt = require("bcrypt");
 const zod = require("zod");
 const { userModel } = require("../db");
-
+const jwt = require("jsonwebtoken");
+const jwt_secret_user='abcdefghijkl';
 const userRouter = Router();
 
 // Define Zod schema for validation
@@ -49,11 +50,40 @@ userRouter.post("/signup", async (req, res) => {
 
 module.exports = userRouter;
 
+userRouter.post("/signin", async (req, res) => {
+    try {
+        const { email, password } = req.body;
 
-userRouter.post("/signin", (req, res) => {
-    res.json({
-        message: "User signin endpoint"
-    });
+        // Find user by email
+        const user = await userModel.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Compare password
+        const passMatch = await bcrypt.compare(password, user.password);
+
+        if (!passMatch) {
+            return res.status(401).json({ message: "Invalid credentials" });
+        }
+
+        // Create JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email }, // Payload
+            jwt_secret_user, // Secret key
+            { expiresIn: "1h" } // Token expiration
+        );
+
+        // Respond with token
+        return res.status(200).json({
+            message: "Sign in successful",
+            token,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Internal server error" });
+    }
 });
 
 userRouter.get("/purchases", (req, res) => {
