@@ -115,7 +115,7 @@ const course=await courseModel.create({
 })
 
 // Update course endpoint
-adminRouter.put("/course/:id", adminMiddleware, async function (req, res) {
+adminRouter.put("/course/:id", adminMiddlware , async function (req, res) {
     try {
         // Extract course ID and admin ID
         const courseId = req.params.id;
