@@ -21,7 +21,8 @@ courseRouter.post("/purchase",userMiddlware,async function(req, res) {
 courseRouter.get("/preview", async function(req, res) {
     const courses=await courseModel.find({});
     res.json({
-        message: "signup endpoint"
+        message: "here are the courses",
+        courses
     })
 })
 
@@ -33,8 +34,17 @@ courseRouter.get("/purchases",userMiddlware,async function(req, res) {
         userId,
     });
 
+    let purchasedCourseIds = [];
+    for (let i = 0; i<purchases.length;i++){ 
+        purchasedCourseIds.push(purchases[i].courseId)
+    }
+    const coursesData = await courseModel.find({
+        _id: { $in: purchasedCourseIds }
+    })
+
     res.json({
-       purchases
+       purchases,
+       coursesData
     })
 })
 
