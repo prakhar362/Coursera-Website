@@ -10,4 +10,8 @@ Full stack website
  - Add middlewares for user and admin auth
  - Complete the routes for user login, signup, purchase a course, see course (Extra points - Use express routing to better structure your routes)
  - Create the frontend
+
+-Try to do:
+purchases section using razorpay etc.
+frontend in react etc.
 ![image](https://github.com/user-attachments/assets/018402db-5f55-46e8-94a1-0291117f382b)
