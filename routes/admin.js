@@ -155,10 +155,17 @@ adminRouter.put("/course/:id", adminMiddlware , async function (req, res) {
     }
 });
 
-adminRouter.get("/course/bulk", function(req, res) {
+adminRouter.get("/course/bulk",adminMiddlware,async function(req, res) {
+    const adminId=req.userId;
+    const courses=await courseModel.find({
+        creatorId:adminId
+    });
+    
     res.json({
-        message: "signup endpoint"
-    })
+        message: "course updated",
+        courses
+    });
+
 })
 
 module.exports = {
